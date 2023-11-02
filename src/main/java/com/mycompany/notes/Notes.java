@@ -5,7 +5,7 @@ import java.io.InputStream;
 import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.Scanner;
-import org.mindrot.jbcrypt.BCrypt;
+
 
 
 /**
@@ -15,33 +15,28 @@ import org.mindrot.jbcrypt.BCrypt;
 public class Notes{
     
     
-    private HashMap<Integer, String> users;
+    Data data;
     
     public Notes(){
-        users = new HashMap<>();
-        loadUsers();
+        data = new Data();
     }
     
-    private void loadUsers(){
-        InputStream file = Notes.class.getClassLoader().getResourceAsStream("users.txt");
-        Scanner scanner = new Scanner(file);
-        
-        while(scanner.hasNextLine()){
-            users.put(scanner.nextInt(), scanner.next());
-        }
-    }
     
     public void newUser(String username, String password){
         
     }
     
-    public Person logIn(int username, String password){
-        if(BCrypt.checkpw(password, users.get(username)))
-            System.out.println("log in sucess");
-        return null;
+    public boolean logIn(int username, String password){
+        if(Data.checkCombo(username,password)){
+            return true;
+        }
+        return false;
     }
     
-    public void writeNote(Person user, String note){}
+    public void writeNote(Person user, String note){
+        
+        
+    }
     
     public HashMap getNotes(Person user){return new HashMap<LocalDateTime, String>();}
     

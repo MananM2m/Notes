@@ -24,8 +24,9 @@ public class Note implements java.io.Serializable{
         date = LocalDateTime.now();
     }
 
-    public String getContent() {
-        return content;
+    @Override
+    public String toString() {
+            return content;
     }
 
     public LocalDateTime getDate() {
@@ -35,4 +36,6 @@ public class Note implements java.io.Serializable{
     public void updateNote(String updatedNote){
         content = updatedNote;
     }
+    
+    
 }
