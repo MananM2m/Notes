@@ -33,6 +33,7 @@ public class Notes{
     public void writeNote(Person user, String note){
         
         
+        
     }
     
     public HashMap getNotes(Person user){return new HashMap<LocalDateTime, String>();}
