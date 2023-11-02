@@ -27,10 +27,7 @@ public class Notes{
     }
     
     public boolean logIn(int username, String password){
-        if(Data.checkCombo(username,password)){
-            return true;
-        }
-        return false;
+        return data.checkCombo(username,password);
     }
     
     public void writeNote(Person user, String note){
