@@ -4,10 +4,35 @@
  */
 package com.mycompany.notes;
 
+import java.time.LocalDateTime;
+
 /**
  *
  * @author manan
  */
-public class Note {
+public class Note implements java.io.Serializable{
+    private String content;
+    private LocalDateTime date;
     
+    public Note(){
+        content = "";
+        date = LocalDateTime.now();
+    }
+    
+    public Note(String content){
+        this.content = content;
+        date = LocalDateTime.now();
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public LocalDateTime getDate() {
+        return date;
+    }
+    
+    public void updateNote(String updatedNote){
+        content = updatedNote;
+    }
 }

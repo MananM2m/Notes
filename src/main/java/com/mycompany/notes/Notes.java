@@ -38,7 +38,7 @@ public class Notes{
     public Person logIn(int username, String password){
         if(BCrypt.checkpw(password, users.get(username)))
             System.out.println("log in sucess");
-        return new Person();
+        return null;
     }
     
     public void writeNote(Person user, String note){}
