@@ -28,6 +28,7 @@ public class Notes{
             Object dataObject = ois.readObject();
             data = (Data)dataObject;
         }catch(FileNotFoundException e){  
+            data = new Data();
         } catch (IOException | ClassNotFoundException ex) {}
     }
     

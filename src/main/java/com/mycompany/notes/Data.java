@@ -20,8 +20,10 @@ public class Data implements java.io.Serializable{
     }
     
     public boolean checkCombo(int username, String password){
-        if(BCrypt.checkpw(password, users.get(username)))
-            return true;
+        if(users.containsKey(username)){
+            if(BCrypt.checkpw(password, users.get(username)))
+                return true;
+        }
         return false;
     }
     
