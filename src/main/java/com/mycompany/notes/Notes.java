@@ -19,7 +19,7 @@ import java.util.HashSet;
  * @author manan
  */
 public class Notes{
-    Data data;
+    private Data data;
     
     public Notes(){
         try{
@@ -34,7 +34,7 @@ public class Notes{
     
     
     public boolean newUser(String username, String password){
-        if(data.userExists(username.hashCode())){
+        if(!data.userExists(username.hashCode())){
             data.newUser(username, password);
             return true;
         }
