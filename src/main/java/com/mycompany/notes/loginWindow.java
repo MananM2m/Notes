@@ -144,7 +144,7 @@ public class loginWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_textfield_passwordActionPerformed
 
     private void button_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_loginActionPerformed
-        notes.logIn(textfield_username.getText().hashCode(),textfield_password.getText());
+        notes.logIn(textfield_username.getText(),textfield_password.getText());
     }//GEN-LAST:event_button_loginActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
