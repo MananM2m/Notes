@@ -27,9 +27,12 @@ public class Notes{
             ObjectInputStream ois = new ObjectInputStream(fis);
             Object dataObject = ois.readObject();
             data = (Data)dataObject;
+            fis.close();
+            ois.close();
         }catch(FileNotFoundException e){  
             data = new Data();
-        } catch (IOException | ClassNotFoundException ex) {}
+            System.out.println("error");
+        } catch (IOException | ClassNotFoundException ex) {System.out.println(ex);}
     }
     
     
@@ -50,9 +53,8 @@ public class Notes{
     }
     
     public int getLoggedIn(){
-        //if(!data.loggedIn.equals(null))
-            //return data.getLoggedIn().username.hashCode();
-        
+        if(data.hasLoggedIn())
+            return data.getLoggedIn();
         return -1;
     }
     
@@ -70,6 +72,8 @@ public class Notes{
             
             try (ObjectOutputStream oos = new ObjectOutputStream(fos)) {
                 oos.writeObject(data);
+                
+                fos.close();
             }
         } catch (FileNotFoundException ex) {
             File file = new File("data.notes");

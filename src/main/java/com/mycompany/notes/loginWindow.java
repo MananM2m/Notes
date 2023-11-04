@@ -4,6 +4,10 @@
  */
 package com.mycompany.notes;
 
+import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 /**
  *
  * @author manan
@@ -16,10 +20,23 @@ public class loginWindow extends javax.swing.JFrame {
     public loginWindow() {
         notes = new Notes();
         
+        initComponents();
+        
+        label_incorrect.setVisible(false);
+        label_usertaken.setVisible(false);
+        label_passmatch.setVisible(false);
+        label_signup_notempty.setVisible(false);
+        
         if(notes.getLoggedIn() != -1){
-            this.dispose();
             mainWindow.createMainWindow();
+            return;
         }
+        
+        this.setVisible(true);
+    }
+    
+    public loginWindow(boolean b) {
+        notes = new Notes();
         
         initComponents();
         
@@ -27,6 +44,10 @@ public class loginWindow extends javax.swing.JFrame {
         label_usertaken.setVisible(false);
         label_passmatch.setVisible(false);
         label_signup_notempty.setVisible(false);
+        
+        
+        
+        this.setVisible(true);
     }
 
     /**
@@ -62,7 +83,6 @@ public class loginWindow extends javax.swing.JFrame {
 
         signup.setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         signup.setBackground(new java.awt.Color(255, 204, 102));
-        signup.setMaximumSize(new java.awt.Dimension(265, 298));
         signup.setMinimumSize(new java.awt.Dimension(265, 298));
 
         jLabel4.setFont(new java.awt.Font("Bauhaus 93", 0, 48)); // NOI18N
@@ -182,7 +202,7 @@ public class loginWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 102));
         setMaximumSize(new java.awt.Dimension(239, 298));
         setMinimumSize(new java.awt.Dimension(239, 298));
@@ -303,11 +323,15 @@ public class loginWindow extends javax.swing.JFrame {
     private void button_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_loginActionPerformed
         if(notes.logIn(textfield_username.getText(),textfield_password.getText())){
             if(checkbox_stayloggedin.isSelected())
-                
-            
+                notes.setLoggedIn(textfield_username.getText().hashCode());
+            else
+                notes.setLoggedIn(-1);
             loggedInUser = textfield_username.getText().hashCode();
             mainWindow.createMainWindow();
             this.dispose();
+            try {
+                notes.write();
+            } catch (IOException ex) {}
             return;
         }
         label_incorrect.setVisible(true);
@@ -340,6 +364,9 @@ public class loginWindow extends javax.swing.JFrame {
         }
         if(notes.newUser(textfield_signup_username.getText(), textfield_signup_password.getText())){
             signup.dispose();
+            try {
+                notes.write();
+            } catch (IOException ex) {}
             return;
         }
         label_usertaken.setVisible(true);
@@ -349,19 +376,19 @@ public class loginWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textfield_signup_confirmpassActionPerformed
 
+    
+    public static void createLoginWindow(boolean logout){
+        if(!logout){
+            new loginWindow();
+            return;}
+        
+        new loginWindow(true);
+    }
     /**
      * @param args the command line arguments
      */
     public static void main(String args[]) {
-    
-        
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(() -> {
-            new loginWindow().setVisible(true);
-        });
-        
-        
-        
+        createLoginWindow(false);
     }
 
     final Notes notes;

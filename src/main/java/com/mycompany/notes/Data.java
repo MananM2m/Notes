@@ -9,15 +9,16 @@ import org.mindrot.jbcrypt.BCrypt;
  * @author manan
  */
 public class Data implements java.io.Serializable{
-    private Person loggedIn;
-    
+    private int loggedIn;
+    private boolean hasLoggedIn;
     private HashMap<Integer , Person> people;
     private HashMap<Integer, String> users;
     
     public Data(){
-        loggedIn = null;
+        loggedIn = -1;
         people = new HashMap<>();
         users = new HashMap<>();
+        hasLoggedIn = false;
     }
     
     public boolean checkCombo(int username, String password){
@@ -46,10 +47,16 @@ public class Data implements java.io.Serializable{
     }
     
     public void setLoggedIn(int username){
-        loggedIn = people.get(username);
+        loggedIn = username;
+        if(username != -1)
+            hasLoggedIn = true;
     }
     
-    public Person getLoggedIn(){
+    public boolean hasLoggedIn(){
+        return hasLoggedIn;
+    }
+    
+    public int getLoggedIn(){
         return loggedIn;
     }
 }
