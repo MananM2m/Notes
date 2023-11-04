@@ -10,11 +10,12 @@ import org.mindrot.jbcrypt.BCrypt;
  */
 public class Data implements java.io.Serializable{
     private Person loggedIn;
+    
     private HashMap<Integer , Person> people;
     private HashMap<Integer, String> users;
     
     public Data(){
-        loggedIn = new Person("");
+        loggedIn = null;
         people = new HashMap<>();
         users = new HashMap<>();
     }

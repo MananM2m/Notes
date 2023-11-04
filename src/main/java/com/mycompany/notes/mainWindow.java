@@ -10,10 +10,12 @@ package com.mycompany.notes;
  */
 public class mainWindow extends javax.swing.JFrame {
 
+    private Notes notes;
     /**
      * Creates new form mainWindow
      */
     public mainWindow() {
+        notes = new Notes();
         initComponents();
     }
 

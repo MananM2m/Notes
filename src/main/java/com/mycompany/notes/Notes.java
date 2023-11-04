@@ -45,6 +45,17 @@ public class Notes{
         return data.checkCombo(username.hashCode(),password);
     }
     
+    public void setLoggedIn(int username){
+        data.setLoggedIn(username);
+    }
+    
+    public int getLoggedIn(){
+        //if(!data.loggedIn.equals(null))
+            //return data.getLoggedIn().username.hashCode();
+        
+        return -1;
+    }
+    
     public void writeNote(String user, String note){
         data.getUser(user.hashCode()).newNote(note);
     }

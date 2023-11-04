@@ -9,7 +9,7 @@ import java.util.HashSet;
  */
 public class Person implements java.io.Serializable{
     
-    private String username;
+    String username;
     private HashSet<Note> notes;
     private HashSet<Note> trash;
     

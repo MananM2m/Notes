@@ -16,6 +16,11 @@ public class loginWindow extends javax.swing.JFrame {
     public loginWindow() {
         notes = new Notes();
         
+        if(notes.getLoggedIn() != -1){
+            this.dispose();
+            mainWindow.createMainWindow();
+        }
+        
         initComponents();
         
         label_incorrect.setVisible(false);
@@ -296,8 +301,15 @@ public class loginWindow extends javax.swing.JFrame {
     }//GEN-LAST:event_textfield_passwordActionPerformed
 
     private void button_loginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_loginActionPerformed
-        if(notes.logIn(textfield_username.getText(),textfield_password.getText()))
+        if(notes.logIn(textfield_username.getText(),textfield_password.getText())){
+            if(checkbox_stayloggedin.isSelected())
+                
+            
             loggedInUser = textfield_username.getText().hashCode();
+            mainWindow.createMainWindow();
+            this.dispose();
+            return;
+        }
         label_incorrect.setVisible(true);
     }//GEN-LAST:event_button_loginActionPerformed
 
@@ -327,7 +339,7 @@ public class loginWindow extends javax.swing.JFrame {
             return;
         }
         if(notes.newUser(textfield_signup_username.getText(), textfield_signup_password.getText())){
-            signup.setVisible(false);
+            signup.dispose();
             return;
         }
         label_usertaken.setVisible(true);
@@ -342,10 +354,12 @@ public class loginWindow extends javax.swing.JFrame {
      */
     public static void main(String args[]) {
     
+        
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
             new loginWindow().setVisible(true);
         });
+        
         
         
     }
