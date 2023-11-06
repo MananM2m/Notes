@@ -75,6 +75,8 @@ public class Notes{
                 
                 fos.close();
             }
+            
+            fos.close();
         } catch (FileNotFoundException ex) {
             File file = new File("data.notes");
             file.createNewFile();

@@ -202,7 +202,7 @@ public class loginWindow extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setBackground(new java.awt.Color(255, 204, 102));
         setMaximumSize(new java.awt.Dimension(239, 298));
         setMinimumSize(new java.awt.Dimension(239, 298));
