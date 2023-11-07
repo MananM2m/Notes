@@ -11,6 +11,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 
 
@@ -61,6 +63,11 @@ public class Notes{
     
     public void writeNote(int user, String note){
         data.getUser(user).newNote(note);
+        try {
+            write();
+        } catch (IOException ex) {
+            
+        }
     }
     
     public ArrayList<Note> getNotes(int username){

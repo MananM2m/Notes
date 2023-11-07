@@ -22,6 +22,7 @@ public class mainWindow extends javax.swing.JFrame{
         notes = new Notes();
         loggedInUser = loginWindow.getLoggedInUser();
         initComponents();
+        updateNoteList();
         
         list_notes.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
             updateNoteArea();
@@ -70,7 +71,11 @@ public class mainWindow extends javax.swing.JFrame{
 
         notearea.setEditable(false);
         notearea.setColumns(20);
+        notearea.setLineWrap(true);
         notearea.setRows(5);
+        notearea.setWrapStyleWord(true);
+        notearea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        notearea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jScrollPane1.setViewportView(notearea);
 
         jButton1.setText("+");
@@ -158,6 +163,7 @@ public class mainWindow extends javax.swing.JFrame{
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         notearea.setEditable(true);
+        notearea.setText("");
         notearea.requestFocus();
         button_editsave.setText("save");
     }//GEN-LAST:event_jButton1ActionPerformed
@@ -172,6 +178,7 @@ public class mainWindow extends javax.swing.JFrame{
         }
         notearea.setEditable(true);
         notearea.requestFocus();
+        notearea.setCaretPosition(notearea.getText().length());
     }//GEN-LAST:event_button_editsaveActionPerformed
 
     
@@ -181,17 +188,22 @@ public class mainWindow extends javax.swing.JFrame{
     
     private void updateNoteList(){
         DefaultTableModel tableModel = (DefaultTableModel)list_notes.getModel();
+        for(int i = 0; i < tableModel.getRowCount(); i++){
+            tableModel.removeRow(i);
+        }
         String out = "";
         String[] row = new String[2];
         int x = 1;
         
         for(Note n : notes.getNotes(loggedInUser)){
-            out = n.getDate("MM/dd/yyyy") + "  ";
+            out = n.getDate("MM/dd/yyyy") + "     ";
             
             try{
                 out += n.toString().substring(0,20);
                 out += "...";
-            }catch(StringIndexOutOfBoundsException e){}
+            }catch(StringIndexOutOfBoundsException e){
+                out += n.toString();
+            }
             
             row[0] = x + "";
             x++;
