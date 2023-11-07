@@ -1,6 +1,7 @@
 
 package com.mycompany.notes;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 
 /**
@@ -10,13 +11,13 @@ import java.util.HashSet;
 public class Person implements java.io.Serializable{
     
     String username;
-    private HashSet<Note> notes;
-    private HashSet<Note> trash;
+    private ArrayList<Note> notes;
+    private ArrayList<Note> trash;
     
     public Person(String username){
         this.username = username;
-        notes = new HashSet<>();
-        trash = new HashSet<>();
+        notes = new ArrayList<>();
+        trash = new ArrayList<>();
     }
     
     public void newNote(String content){
@@ -27,11 +28,11 @@ public class Person implements java.io.Serializable{
         note.updateNote(updatedNote);
     }
     
-    public HashSet<Note> getNotes(){
+    public ArrayList<Note> getNotes(){
         return notes;
     }
     
-    public HashSet<Note> getTrash(){
+    public ArrayList<Note> getTrash(){
         return trash;
     }
     

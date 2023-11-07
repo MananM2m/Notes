@@ -5,6 +5,7 @@
 package com.mycompany.notes;
 
 import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 
 /**
  *
@@ -26,11 +27,12 @@ public class Note implements java.io.Serializable{
 
     @Override
     public String toString() {
-            return content;
+        return content;
     }
 
-    public LocalDateTime getDate() {
-        return date;
+    public String getDate(String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return date.format(formatter);
     }
     
     public void updateNote(String updatedNote){

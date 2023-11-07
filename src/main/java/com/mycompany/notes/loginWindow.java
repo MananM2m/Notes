@@ -28,6 +28,7 @@ public class loginWindow extends javax.swing.JFrame {
         label_signup_notempty.setVisible(false);
         
         if(notes.getLoggedIn() != -1){
+            loggedInUser = notes.getLoggedIn();
             mainWindow.createMainWindow();
             return;
         }
@@ -332,6 +333,7 @@ public class loginWindow extends javax.swing.JFrame {
             try {
                 notes.write();
             } catch (IOException ex) {}
+            notes = null;
             return;
         }
         label_incorrect.setVisible(true);
@@ -376,6 +378,10 @@ public class loginWindow extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_textfield_signup_confirmpassActionPerformed
 
+    public static int getLoggedInUser() {
+        return loggedInUser;
+    }
+
     
     public static void createLoginWindow(boolean logout){
         if(!logout){
@@ -391,8 +397,8 @@ public class loginWindow extends javax.swing.JFrame {
         createLoginWindow(false);
     }
 
-    final Notes notes;
-    int loggedInUser;
+    private Notes notes;
+    private static int loggedInUser;
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_login;
     private javax.swing.JButton button_signup;

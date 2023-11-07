@@ -9,6 +9,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.HashSet;
 
 
@@ -58,11 +59,11 @@ public class Notes{
         return -1;
     }
     
-    public void writeNote(String user, String note){
-        data.getUser(user.hashCode()).newNote(note);
+    public void writeNote(int user, String note){
+        data.getUser(user).newNote(note);
     }
     
-    public HashSet<Note> getNotes(int username){
+    public ArrayList<Note> getNotes(int username){
         return data.getUser(username).getNotes();
     }
     

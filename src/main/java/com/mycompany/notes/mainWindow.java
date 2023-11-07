@@ -4,19 +4,28 @@
  */
 package com.mycompany.notes;
 
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.table.DefaultTableModel;
+
 /**
  *
  * @author manan
  */
-public class mainWindow extends javax.swing.JFrame {
+public class mainWindow extends javax.swing.JFrame{
 
     private Notes notes;
+    private int loggedInUser;
     /**
      * Creates new form mainWindow
      */
     public mainWindow() {
         notes = new Notes();
+        loggedInUser = loginWindow.getLoggedInUser();
         initComponents();
+        
+        list_notes.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
+            updateNoteArea();
+        });
     }
 
     /**
@@ -29,13 +38,13 @@ public class mainWindow extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane2 = new javax.swing.JScrollPane();
-        notelist = new javax.swing.JTable();
+        list_notes = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
         notearea = new javax.swing.JTextArea();
         label_date = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
         jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        button_editsave = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
@@ -44,25 +53,41 @@ public class mainWindow extends javax.swing.JFrame {
         setTitle("My notes");
         setMinimumSize(new java.awt.Dimension(100, 100));
 
-        notelist.setModel(new javax.swing.table.DefaultTableModel(
+        list_notes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
             },
             new String [] {
-                "My notes"
+                "", "My notes"
             }
         ));
-        jScrollPane2.setViewportView(notelist);
+        jScrollPane2.setViewportView(list_notes);
+        if (list_notes.getColumnModel().getColumnCount() > 0) {
+            list_notes.getColumnModel().getColumn(0).setMinWidth(25);
+            list_notes.getColumnModel().getColumn(0).setPreferredWidth(25);
+            list_notes.getColumnModel().getColumn(0).setMaxWidth(25);
+        }
 
+        notearea.setEditable(false);
         notearea.setColumns(20);
         notearea.setRows(5);
         jScrollPane1.setViewportView(notearea);
 
         jButton1.setText("+");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
 
         jButton2.setText("-");
 
-        jButton3.setText("Edit");
+        button_editsave.setText("Edit");
+        button_editsave.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_editsaveActionPerformed(evt);
+            }
+        });
 
         jMenu1.setText("Options");
 
@@ -100,7 +125,7 @@ public class mainWindow extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jButton3)))
+                        .addComponent(button_editsave)))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
@@ -119,7 +144,7 @@ public class mainWindow extends javax.swing.JFrame {
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(jButton1)
                         .addComponent(jButton2))
-                    .addComponent(jButton3))
+                    .addComponent(button_editsave))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -131,8 +156,52 @@ public class mainWindow extends javax.swing.JFrame {
         loginWindow.createLoginWindow(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    /**
-     */
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        notearea.setEditable(true);
+        notearea.requestFocus();
+        button_editsave.setText("save");
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void button_editsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_editsaveActionPerformed
+        if(button_editsave.getText().equals("save")){
+            notes.writeNote(loggedInUser,notearea.getText());
+            notearea.setEditable(false);
+            updateNoteList();
+            button_editsave.setText("Edit");
+            return;
+        }
+        notearea.setEditable(true);
+        notearea.requestFocus();
+    }//GEN-LAST:event_button_editsaveActionPerformed
+
+    
+    private void updateNoteArea(){
+        
+    }
+    
+    private void updateNoteList(){
+        DefaultTableModel tableModel = (DefaultTableModel)list_notes.getModel();
+        String out = "";
+        String[] row = new String[2];
+        int x = 1;
+        
+        for(Note n : notes.getNotes(loggedInUser)){
+            out = n.getDate("MM/dd/yyyy") + "  ";
+            
+            try{
+                out += n.toString().substring(0,20);
+                out += "...";
+            }catch(StringIndexOutOfBoundsException e){}
+            
+            row[0] = x + "";
+            x++;
+            row[1] = out;
+            tableModel.addRow(row);
+        }
+    }
+    //"EEEE, MM/dd/yyyy, hh:mm a"
+    
+    
     public static void createMainWindow() {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(() -> {
@@ -141,16 +210,16 @@ public class mainWindow extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton button_editsave;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel label_date;
+    private javax.swing.JTable list_notes;
     private javax.swing.JTextArea notearea;
-    private javax.swing.JTable notelist;
     // End of variables declaration//GEN-END:variables
 }
