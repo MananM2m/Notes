@@ -91,4 +91,8 @@ public class Notes{
             write();
         } 
     }
+    
+    public void deleteNote(int username, Note note){
+        data.getUser(username).deleteNote(note);
+    }
 }

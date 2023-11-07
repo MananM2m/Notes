@@ -4,6 +4,7 @@
  */
 package com.mycompany.notes;
 
+import java.util.ArrayList;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 
@@ -62,6 +63,7 @@ public class mainWindow extends javax.swing.JFrame{
                 "", "My notes"
             }
         ));
+        list_notes.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
         jScrollPane2.setViewportView(list_notes);
         if (list_notes.getColumnModel().getColumnCount() > 0) {
             list_notes.getColumnModel().getColumn(0).setMinWidth(25);
@@ -86,6 +88,11 @@ public class mainWindow extends javax.swing.JFrame{
         });
 
         jButton2.setText("-");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
 
         button_editsave.setText("Edit");
         button_editsave.addActionListener(new java.awt.event.ActionListener() {
@@ -181,21 +188,26 @@ public class mainWindow extends javax.swing.JFrame{
         notearea.setCaretPosition(notearea.getText().length());
     }//GEN-LAST:event_button_editsaveActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        notes.deleteNote(loggedInUser, notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()));
+        updateNoteList();
+    }//GEN-LAST:event_jButton2ActionPerformed
+
     
     private void updateNoteArea(){
-        
+        notearea.setText(list_notes.getSelectedColumn());
     }
     
     private void updateNoteList(){
-        DefaultTableModel tableModel = (DefaultTableModel)list_notes.getModel();
-        for(int i = 0; i < tableModel.getRowCount(); i++){
-            tableModel.removeRow(i);
-        }
-        String out = "";
-        String[] row = new String[2];
-        int x = 1;
         
-        for(Note n : notes.getNotes(loggedInUser)){
+        DefaultTableModel tableModel = (DefaultTableModel)list_notes.getModel();
+        String out = "";
+        tableModel.setRowCount(0);
+        String[] row = new String[2];
+        ArrayList<Note> noteList = notes.getNotes(loggedInUser);
+        
+        
+        for(Note n : noteList){
             out = n.getDate("MM/dd/yyyy") + "     ";
             
             try{
@@ -205,8 +217,8 @@ public class mainWindow extends javax.swing.JFrame{
                 out += n.toString();
             }
             
-            row[0] = x + "";
-            x++;
+            row[0] = noteList.indexOf(n) + 1 + "";
+
             row[1] = out;
             tableModel.addRow(row);
         }
