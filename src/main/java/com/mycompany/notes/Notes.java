@@ -61,8 +61,19 @@ public class Notes{
         return -1;
     }
     
-    public void writeNote(int user, String note){
-        data.getUser(user).newNote(note);
+    public Note writeNote(int user, String note){
+        Note n = data.getUser(user).newNote(note);
+        try {
+            write();
+        } catch (IOException ex) {
+            
+        }
+        
+        return n;
+    }
+    
+    public void updateNote(int user, Note note, String newNote){
+        data.getUser(user).updateNote(note,newNote);
         try {
             write();
         } catch (IOException ex) {

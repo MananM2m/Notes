@@ -20,8 +20,9 @@ public class Person implements java.io.Serializable{
         trash = new ArrayList<>();
     }
     
-    public void newNote(String content){
+    public Note newNote(String content){
         notes.add(new Note(content));
+        return new Note(content);
     }
     
     public void updateNote(Note note, String updatedNote){

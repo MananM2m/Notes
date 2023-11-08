@@ -24,6 +24,8 @@ public class mainWindow extends javax.swing.JFrame{
         loggedInUser = loginWindow.getLoggedInUser();
         initComponents();
         updateNoteList();
+        list_notes.selectAll();
+        updateNoteArea();
         
         list_notes.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
             updateNoteArea();
@@ -55,6 +57,7 @@ public class mainWindow extends javax.swing.JFrame{
         setTitle("My notes");
         setMinimumSize(new java.awt.Dimension(100, 100));
 
+        list_notes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         list_notes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
 
@@ -76,9 +79,12 @@ public class mainWindow extends javax.swing.JFrame{
         notearea.setLineWrap(true);
         notearea.setRows(5);
         notearea.setWrapStyleWord(true);
-        notearea.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        notearea.setBorder(null);
         notearea.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
         jScrollPane1.setViewportView(notearea);
+
+        label_date.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        label_date.setText("Date");
 
         jButton1.setText("+");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
@@ -124,21 +130,19 @@ public class mainWindow extends javax.swing.JFrame{
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(103, 103, 103)
-                                .addComponent(label_date)))
-                        .addGap(0, 0, Short.MAX_VALUE))
+                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 2, Short.MAX_VALUE))
+                            .addComponent(label_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(jButton1)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(jButton2)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button_editsave)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -146,16 +150,14 @@ public class mainWindow extends javax.swing.JFrame{
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
                         .addComponent(label_date)
-                        .addGap(18, 18, 18)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(jButton1)
-                        .addComponent(jButton2))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton1)
+                    .addComponent(jButton2)
                     .addComponent(button_editsave))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -172,19 +174,29 @@ public class mainWindow extends javax.swing.JFrame{
         notearea.setEditable(true);
         notearea.setText("");
         notearea.requestFocus();
+        list_notes.clearSelection();
+        label_date.setText("New note");
         button_editsave.setText("save");
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void button_editsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_editsaveActionPerformed
         if(button_editsave.getText().equals("save")){
-            notes.writeNote(loggedInUser,notearea.getText());
+            try{
+                notes.updateNote(loggedInUser, notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()), notearea.getText());
+                label_date.setText("Last edited "+notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()).getDate("EEEE, MM/dd/yyyy, hh:mm a"));
+            }catch(java.lang.IndexOutOfBoundsException e){
+                Note n = notes.writeNote(loggedInUser, notearea.getText());
+                label_date.setText(n.getDate("EEEE, MM/dd/yyyy, hh:mm a"));
+            }
             notearea.setEditable(false);
             updateNoteList();
-            button_editsave.setText("Edit");
+            list_notes.selectAll();
+            button_editsave.setText("edit");
             return;
         }
         notearea.setEditable(true);
         notearea.requestFocus();
+        button_editsave.setText("save");
         notearea.setCaretPosition(notearea.getText().length());
     }//GEN-LAST:event_button_editsaveActionPerformed
 
@@ -195,9 +207,12 @@ public class mainWindow extends javax.swing.JFrame{
 
     
     private void updateNoteArea(){
-        notearea.setText(list_notes.getSelectedColumn());
+        if(list_notes.getSelectedRow() != -1){
+            notearea.setText(notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()).toString());
+            label_date.setText(notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()).getDate("EEEE, MM/dd/yyyy, hh:mm a"));
+        }
     }
-    
+    //error - updating new notes
     private void updateNoteList(){
         
         DefaultTableModel tableModel = (DefaultTableModel)list_notes.getModel();
