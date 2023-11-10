@@ -24,7 +24,7 @@ public class mainWindow extends javax.swing.JFrame{
         loggedInUser = loginWindow.getLoggedInUser();
         initComponents();
         updateNoteList();
-        list_notes.selectAll();
+        list_notes.clearSelection();
         updateNoteArea();
         
         list_notes.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
@@ -183,34 +183,47 @@ public class mainWindow extends javax.swing.JFrame{
         if(button_editsave.getText().equals("save")){
             try{
                 notes.updateNote(loggedInUser, notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()), notearea.getText());
-                label_date.setText("Last edited "+notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()).getDate("EEEE, MM/dd/yyyy, hh:mm a"));
+                label_date.setText("Edited "+notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()).getDate("EEEE, MM/dd/yyyy, hh:mm a"));
             }catch(java.lang.IndexOutOfBoundsException e){
-                Note n = notes.writeNote(loggedInUser, notearea.getText());
-                label_date.setText(n.getDate("EEEE, MM/dd/yyyy, hh:mm a"));
+                try{
+                    Note n = notes.writeNote(loggedInUser, notearea.getText());
+                    label_date.setText(n.getDate("EEEE, MM/dd/yyyy, hh:mm a"));
+                }catch(java.lang.NullPointerException ex){return;}
             }
             notearea.setEditable(false);
             updateNoteList();
-            list_notes.selectAll();
+            list_notes.clearSelection();
             button_editsave.setText("edit");
             return;
         }
-        notearea.setEditable(true);
-        notearea.requestFocus();
-        button_editsave.setText("save");
-        notearea.setCaretPosition(notearea.getText().length());
+        if(list_notes.getSelectedRow() != -1){
+            notearea.setEditable(true);
+            notearea.requestFocus();
+            button_editsave.setText("save");
+            notearea.setCaretPosition(notearea.getText().length());
+        }
     }//GEN-LAST:event_button_editsaveActionPerformed
 
     private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        notes.deleteNote(loggedInUser, notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()));
-        updateNoteList();
+        try{
+            notes.deleteNote(loggedInUser, notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()));
+            updateNoteList();
+        }catch(java.lang.IndexOutOfBoundsException e){}
+        list_notes.selectAll();
     }//GEN-LAST:event_jButton2ActionPerformed
 
     
     private void updateNoteArea(){
         if(list_notes.getSelectedRow() != -1){
             notearea.setText(notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()).toString());
-            label_date.setText(notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()).getDate("EEEE, MM/dd/yyyy, hh:mm a"));
+            try{
+                label_date.setText("Edited "+notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()).getEditedDate("EEEE, MM/dd/yyyy, hh:mm a"));
+            }catch(java.lang.NullPointerException e){
+                label_date.setText(notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()).getDate("EEEE, MM/dd/yyyy, hh:mm a"));
+            }
+            return;
         }
+        notearea.setText("");
     }
     //error - updating new notes
     private void updateNoteList(){

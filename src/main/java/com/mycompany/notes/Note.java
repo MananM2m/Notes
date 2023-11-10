@@ -14,10 +14,12 @@ import java.time.format.DateTimeFormatter;
 public class Note implements java.io.Serializable{
     private String content;
     private LocalDateTime date;
+    private LocalDateTime editedDate;
     
     public Note(){
         content = "";
         date = LocalDateTime.now();
+        editedDate = null;
     }
     
     public Note(String content){
@@ -35,8 +37,14 @@ public class Note implements java.io.Serializable{
         return date.format(formatter);
     }
     
+    public String getEditedDate(String pattern) {
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern(pattern);
+        return editedDate.format(formatter);
+    }
+    
     public void updateNote(String updatedNote){
         content = updatedNote;
+        editedDate = LocalDateTime.now();
     }
     
     

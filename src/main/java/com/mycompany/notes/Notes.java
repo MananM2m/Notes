@@ -63,6 +63,8 @@ public class Notes{
     
     public Note writeNote(int user, String note){
         Note n = data.getUser(user).newNote(note);
+        if(note.equals(""))
+            return null;
         try {
             write();
         } catch (IOException ex) {
