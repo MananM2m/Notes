@@ -184,15 +184,17 @@ public class mainWindow extends javax.swing.JFrame{
             try{
                 notes.updateNote(loggedInUser, notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()), notearea.getText());
                 label_date.setText("Edited "+notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()).getDate("EEEE, MM/dd/yyyy, hh:mm a"));
+                updateNoteList();
             }catch(java.lang.IndexOutOfBoundsException e){
                 try{
                     Note n = notes.writeNote(loggedInUser, notearea.getText());
                     label_date.setText(n.getDate("EEEE, MM/dd/yyyy, hh:mm a"));
+                    updateNoteList();
                 }catch(java.lang.NullPointerException ex){return;}
             }
             notearea.setEditable(false);
             updateNoteList();
-            list_notes.clearSelection();
+            list_notes.selectAll();
             button_editsave.setText("edit");
             return;
         }

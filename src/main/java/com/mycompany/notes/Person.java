@@ -26,7 +26,8 @@ public class Person implements java.io.Serializable{
     }
     
     public void updateNote(Note note, String updatedNote){
-        note.updateNote(updatedNote);
+        notes.add(note.updateNote(updatedNote));
+        notes.remove(note);
     }
     
     public ArrayList<Note> getNotes(){

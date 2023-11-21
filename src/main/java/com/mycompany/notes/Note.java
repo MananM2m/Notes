@@ -42,9 +42,10 @@ public class Note implements java.io.Serializable{
         return editedDate.format(formatter);
     }
     
-    public void updateNote(String updatedNote){
+    public Note updateNote(String updatedNote){
         content = updatedNote;
         editedDate = LocalDateTime.now();
+        return this;
     }
     
     
