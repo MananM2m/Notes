@@ -46,8 +46,8 @@ public class mainWindow extends javax.swing.JFrame{
         jScrollPane1 = new javax.swing.JScrollPane();
         notearea = new javax.swing.JTextArea();
         label_date = new javax.swing.JLabel();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
+        button_add = new javax.swing.JButton();
+        button_delete = new javax.swing.JButton();
         button_editsave = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
@@ -87,17 +87,17 @@ public class mainWindow extends javax.swing.JFrame{
         label_date.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         label_date.setText("Date");
 
-        jButton1.setText("+");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
+        button_add.setText("+");
+        button_add.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+                button_addActionPerformed(evt);
             }
         });
 
-        jButton2.setText("-");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
+        button_delete.setText("-");
+        button_delete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
+                button_deleteActionPerformed(evt);
             }
         });
 
@@ -146,9 +146,9 @@ public class mainWindow extends javax.swing.JFrame{
                                 .addGap(0, 2, Short.MAX_VALUE))
                             .addComponent(label_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(button_add)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(jButton2)
+                        .addComponent(button_delete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(button_editsave)))
                 .addContainerGap())
@@ -165,8 +165,8 @@ public class mainWindow extends javax.swing.JFrame{
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jButton2)
+                    .addComponent(button_add)
+                    .addComponent(button_delete)
                     .addComponent(button_editsave))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -179,15 +179,17 @@ public class mainWindow extends javax.swing.JFrame{
         loginWindow.createLoginWindow(true);
     }//GEN-LAST:event_jMenuItem1ActionPerformed
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+    private void button_addActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_addActionPerformed
         notearea.setEditable(true);
         notearea.setText("");
         notearea.requestFocus();
         list_notes.clearSelection();
         label_date.setText("New note");
         list_notes.setEnabled(false);
+        button_add.setEnabled(false);
+        button_delete.setEnabled(false);
         button_editsave.setText("save");
-    }//GEN-LAST:event_jButton1ActionPerformed
+    }//GEN-LAST:event_button_addActionPerformed
 
     private void button_editsaveActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_editsaveActionPerformed
         if(button_editsave.getText().equals("save")){
@@ -207,6 +209,8 @@ public class mainWindow extends javax.swing.JFrame{
             list_notes.selectAll();
             button_editsave.setText("edit");
             list_notes.setEnabled(true);
+            button_add.setEnabled(true);
+            button_delete.setEnabled(true);
             return;
         }
         if(list_notes.getSelectedRow() != -1){
@@ -218,13 +222,13 @@ public class mainWindow extends javax.swing.JFrame{
         }
     }//GEN-LAST:event_button_editsaveActionPerformed
 
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+    private void button_deleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteActionPerformed
         try{
             notes.deleteNote(loggedInUser, notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()));
             updateNoteList();
         }catch(java.lang.IndexOutOfBoundsException e){}
         list_notes.selectAll();
-    }//GEN-LAST:event_jButton2ActionPerformed
+    }//GEN-LAST:event_button_deleteActionPerformed
 
     private void button_settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_settingsActionPerformed
         // TODO add your handling code here:
@@ -280,10 +284,10 @@ public class mainWindow extends javax.swing.JFrame{
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton button_add;
+    private javax.swing.JButton button_delete;
     private javax.swing.JButton button_editsave;
     private javax.swing.JMenuItem button_settings;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
