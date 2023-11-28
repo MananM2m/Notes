@@ -14,8 +14,8 @@ import javax.swing.table.DefaultTableModel;
  */
 public class mainWindow extends javax.swing.JFrame{
 
-    private Notes notes;
-    private int loggedInUser;
+    private final Notes notes;
+    private final int loggedInUser;
     /**
      * Creates new form mainWindow
      */
@@ -52,6 +52,7 @@ public class mainWindow extends javax.swing.JFrame{
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
+        button_settings = new javax.swing.JMenuItem();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("My notes");
@@ -117,6 +118,14 @@ public class mainWindow extends javax.swing.JFrame{
         });
         jMenu1.add(jMenuItem1);
 
+        button_settings.setText("Account settings");
+        button_settings.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_settingsActionPerformed(evt);
+            }
+        });
+        jMenu1.add(button_settings);
+
         jMenuBar1.add(jMenu1);
 
         setJMenuBar(jMenuBar1);
@@ -176,6 +185,7 @@ public class mainWindow extends javax.swing.JFrame{
         notearea.requestFocus();
         list_notes.clearSelection();
         label_date.setText("New note");
+        list_notes.setEnabled(false);
         button_editsave.setText("save");
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -196,9 +206,11 @@ public class mainWindow extends javax.swing.JFrame{
             updateNoteList();
             list_notes.selectAll();
             button_editsave.setText("edit");
+            list_notes.setEnabled(true);
             return;
         }
         if(list_notes.getSelectedRow() != -1){
+            list_notes.setEnabled(false);
             notearea.setEditable(true);
             notearea.requestFocus();
             button_editsave.setText("save");
@@ -213,6 +225,10 @@ public class mainWindow extends javax.swing.JFrame{
         }catch(java.lang.IndexOutOfBoundsException e){}
         list_notes.selectAll();
     }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void button_settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_settingsActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_button_settingsActionPerformed
 
     
     private void updateNoteArea(){
@@ -265,6 +281,7 @@ public class mainWindow extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_editsave;
+    private javax.swing.JMenuItem button_settings;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JMenu jMenu1;

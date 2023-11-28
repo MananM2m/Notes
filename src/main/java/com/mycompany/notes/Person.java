@@ -2,7 +2,7 @@
 package com.mycompany.notes;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+
 
 /**
  * Class person represents a person, each person has a set of notes
@@ -19,6 +19,7 @@ public class Person implements java.io.Serializable{
         notes = new ArrayList<>();
         trash = new ArrayList<>();
     }
+    
     
     public Note newNote(String content){
         notes.add(new Note(content));
@@ -47,5 +48,9 @@ public class Person implements java.io.Serializable{
         trash.remove(note);
     }
     
+    @Override
+    public String toString(){
+        return username;
+    }
     
 }
