@@ -48,6 +48,11 @@ public class Person implements java.io.Serializable{
         trash.remove(note);
     }
     
+    public void recoverNote(Note note){
+        notes.add(note);
+        trash.remove(note);
+    }
+    
     @Override
     public String toString(){
         return username;

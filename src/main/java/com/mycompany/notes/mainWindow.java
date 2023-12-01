@@ -4,7 +4,12 @@
  */
 package com.mycompany.notes;
 
+
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.table.DefaultTableModel;
 
@@ -16,6 +21,7 @@ public class mainWindow extends javax.swing.JFrame{
 
     private final Notes notes;
     private final int loggedInUser;
+  
     /**
      * Creates new form mainWindow
      */
@@ -30,6 +36,11 @@ public class mainWindow extends javax.swing.JFrame{
         list_notes.getSelectionModel().addListSelectionListener((ListSelectionEvent e) -> {
             updateNoteArea();
         });
+        
+        label_deleteconfirm.setVisible(false);
+        button_check.setVisible(false);
+        button_x.setVisible(false);
+        dialog_trash.setVisible(false);
     }
 
     /**
@@ -41,6 +52,14 @@ public class mainWindow extends javax.swing.JFrame{
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        dialog_trash = new javax.swing.JDialog();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        list_trash = new javax.swing.JTable();
+        button_recover = new javax.swing.JButton();
+        button_deleteforever = new javax.swing.JButton();
+        label_deleteconfirm = new javax.swing.JLabel();
+        button_check = new javax.swing.JButton();
+        button_x = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         list_notes = new javax.swing.JTable();
         jScrollPane1 = new javax.swing.JScrollPane();
@@ -49,14 +68,102 @@ public class mainWindow extends javax.swing.JFrame{
         button_add = new javax.swing.JButton();
         button_delete = new javax.swing.JButton();
         button_editsave = new javax.swing.JButton();
+        button_trash = new javax.swing.JButton();
         jMenuBar1 = new javax.swing.JMenuBar();
         jMenu1 = new javax.swing.JMenu();
         jMenuItem1 = new javax.swing.JMenuItem();
         button_settings = new javax.swing.JMenuItem();
 
+        dialog_trash.setMinimumSize(new java.awt.Dimension(450, 400));
+
+        list_trash.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+        list_trash.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "", "Deleted notes"
+            }
+        ));
+        list_trash.setMinimumSize(new java.awt.Dimension(305, 450));
+        list_trash.setPreferredSize(new java.awt.Dimension(350, 350));
+        list_trash.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        jScrollPane3.setViewportView(list_trash);
+        if (list_trash.getColumnModel().getColumnCount() > 0) {
+            list_trash.getColumnModel().getColumn(0).setMinWidth(25);
+            list_trash.getColumnModel().getColumn(0).setPreferredWidth(25);
+            list_trash.getColumnModel().getColumn(0).setMaxWidth(25);
+        }
+
+        button_recover.setText("Recover");
+        button_recover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_recoverActionPerformed(evt);
+            }
+        });
+
+        button_deleteforever.setText("Delete Forever");
+        button_deleteforever.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_deleteforeverActionPerformed(evt);
+            }
+        });
+
+        label_deleteconfirm.setText("Delete forever?");
+
+        button_check.setText("✓");
+        button_check.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_checkActionPerformed(evt);
+            }
+        });
+
+        button_x.setText("X");
+        button_x.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_xActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout dialog_trashLayout = new javax.swing.GroupLayout(dialog_trash.getContentPane());
+        dialog_trash.getContentPane().setLayout(dialog_trashLayout);
+        dialog_trashLayout.setHorizontalGroup(
+            dialog_trashLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialog_trashLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(dialog_trashLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                    .addGroup(dialog_trashLayout.createSequentialGroup()
+                        .addComponent(button_recover)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_deleteforever)
+                        .addGap(32, 32, 32)
+                        .addComponent(label_deleteconfirm)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_check, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_x, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap())
+        );
+        dialog_trashLayout.setVerticalGroup(
+            dialog_trashLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(dialog_trashLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(dialog_trashLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(button_recover)
+                    .addComponent(button_deleteforever)
+                    .addComponent(label_deleteconfirm)
+                    .addComponent(button_check)
+                    .addComponent(button_x))
+                .addGap(8, 8, 8))
+        );
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("My notes");
         setMinimumSize(new java.awt.Dimension(100, 100));
+        setSize(new java.awt.Dimension(1000, 1000));
 
         list_notes.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         list_notes.setModel(new javax.swing.table.DefaultTableModel(
@@ -108,6 +215,13 @@ public class mainWindow extends javax.swing.JFrame{
             }
         });
 
+        button_trash.setText("Trash");
+        button_trash.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                button_trashActionPerformed(evt);
+            }
+        });
+
         jMenu1.setText("Options");
 
         jMenuItem1.setText("Logout");
@@ -136,21 +250,19 @@ public class mainWindow extends javax.swing.JFrame{
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(0, 2, Short.MAX_VALUE))
-                            .addComponent(label_date, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(button_add)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(button_delete)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(button_editsave)))
+                        .addComponent(button_trash))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 282, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane1, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(label_date, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 222, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(button_editsave, javax.swing.GroupLayout.Alignment.TRAILING))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -163,12 +275,21 @@ public class mainWindow extends javax.swing.JFrame{
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 281, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 305, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(button_add)
-                    .addComponent(button_delete)
-                    .addComponent(button_editsave))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 8, Short.MAX_VALUE)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(button_add)
+                            .addComponent(button_delete))
+                        .addContainerGap(17, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(button_editsave)
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(button_trash)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
 
         pack();
@@ -226,13 +347,67 @@ public class mainWindow extends javax.swing.JFrame{
         try{
             notes.deleteNote(loggedInUser, notes.getNotes(loggedInUser).get(list_notes.getSelectedRow()));
             updateNoteList();
-        }catch(java.lang.IndexOutOfBoundsException e){}
+        }catch(java.lang.IndexOutOfBoundsException e){} catch (IOException ex) {
+            Logger.getLogger(mainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
         list_notes.selectAll();
+        button_recover.setEnabled(true);
+        button_deleteforever.setEnabled(true);
+        updateTrashList();
     }//GEN-LAST:event_button_deleteActionPerformed
 
     private void button_settingsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_settingsActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_button_settingsActionPerformed
+
+    private void button_deleteforeverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_deleteforeverActionPerformed
+        label_deleteconfirm.setVisible(true);
+        button_check.setVisible(true);
+        button_x.setVisible(true);
+    }//GEN-LAST:event_button_deleteforeverActionPerformed
+
+    private void button_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_checkActionPerformed
+        try {
+            notes.deleteForver(loggedInUser, notes.getNotes(loggedInUser).get(list_trash.getSelectedRow()));
+        } catch (IOException ex) {
+            Logger.getLogger(mainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        
+        updateTrashList();
+        list_trash.selectAll();
+    }//GEN-LAST:event_button_checkActionPerformed
+
+    private void button_trashActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_trashActionPerformed
+        dialog_trash.setVisible(true);
+        label_deleteconfirm.setVisible(false);
+        button_check.setVisible(false);
+        button_x.setVisible(false);
+        
+        updateTrashList();
+        list_trash.selectAll();
+        if(list_trash.getSelectedRow() == -1){
+            button_recover.setEnabled(false);
+            button_deleteforever.setEnabled(false);
+        }
+            
+    }//GEN-LAST:event_button_trashActionPerformed
+
+    private void button_xActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_xActionPerformed
+        label_deleteconfirm.setVisible(false);
+        button_check.setVisible(false);
+        button_x.setVisible(false);
+    }//GEN-LAST:event_button_xActionPerformed
+
+    private void button_recoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_recoverActionPerformed
+        try {
+            notes.recoverNote(loggedInUser, notes.getTrash(loggedInUser).get(list_trash.getSelectedRow()));
+        } catch (IOException ex) {
+            Logger.getLogger(mainWindow.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        updateNoteList();
+        updateTrashList();
+        list_trash.selectAll();
+    }//GEN-LAST:event_button_recoverActionPerformed
 
     
     private void updateNoteArea(){
@@ -247,11 +422,11 @@ public class mainWindow extends javax.swing.JFrame{
         }
         notearea.setText("");
     }
-    //error - updating new notes
+    
     private void updateNoteList(){
         
         DefaultTableModel tableModel = (DefaultTableModel)list_notes.getModel();
-        String out = "";
+        String out;
         tableModel.setRowCount(0);
         String[] row = new String[2];
         ArrayList<Note> noteList = notes.getNotes(loggedInUser);
@@ -275,6 +450,31 @@ public class mainWindow extends javax.swing.JFrame{
     }
     //"EEEE, MM/dd/yyyy, hh:mm a"
     
+    private void updateTrashList(){
+        
+        DefaultTableModel tableModel = (DefaultTableModel)list_trash.getModel();
+        String out;
+        tableModel.setRowCount(0);
+        String[] row = new String[2];
+        ArrayList<Note> noteList = notes.getTrash(loggedInUser);
+        
+        
+        for(Note n : noteList){
+            out = n.getDate("MM/dd/yyyy") + "     ";
+            
+            try{
+                out += n.toString().substring(0,20);
+                out += "...";
+            }catch(StringIndexOutOfBoundsException e){
+                out += n.toString();
+            }
+            
+            row[0] = noteList.indexOf(n) + 1 + "";
+
+            row[1] = out;
+            tableModel.addRow(row);
+        }
+    }
     
     public static void createMainWindow() {
         /* Create and display the form */
@@ -285,16 +485,25 @@ public class mainWindow extends javax.swing.JFrame{
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton button_add;
+    private javax.swing.JButton button_check;
     private javax.swing.JButton button_delete;
+    private javax.swing.JButton button_deleteforever;
     private javax.swing.JButton button_editsave;
+    private javax.swing.JButton button_recover;
     private javax.swing.JMenuItem button_settings;
+    private javax.swing.JButton button_trash;
+    private javax.swing.JButton button_x;
+    private javax.swing.JDialog dialog_trash;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuItem jMenuItem1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JLabel label_date;
+    private javax.swing.JLabel label_deleteconfirm;
     private javax.swing.JTable list_notes;
+    private javax.swing.JTable list_trash;
     private javax.swing.JTextArea notearea;
     // End of variables declaration//GEN-END:variables
 }

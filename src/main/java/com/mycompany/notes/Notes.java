@@ -87,6 +87,10 @@ public class Notes{
         return data.getUser(username).getNotes();
     }
     
+    public ArrayList<Note> getTrash(int username){
+        return data.getUser(username).getTrash();
+    }
+     
     public void write() throws IOException{
         try {
             FileOutputStream fos = new FileOutputStream(new File("data.notes"));
@@ -105,7 +109,18 @@ public class Notes{
         } 
     }
     
-    public void deleteNote(int username, Note note){
+    public void deleteNote(int username, Note note) throws IOException{
         data.getUser(username).deleteNote(note);
+        write();
+    }
+    
+    public void recoverNote(int username, Note note) throws IOException{
+        data.getUser(username).recoverNote(note);
+        write();
+    }
+    
+    public void deleteForver(int username, Note note) throws IOException{
+        data.getUser(username).deleteForever(note);
+        write();
     }
 }
