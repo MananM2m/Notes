@@ -119,7 +119,7 @@ public class Notes{
         write();
     }
     
-    public void deleteForver(int username, Note note) throws IOException{
+    public void deleteForever(int username, Note note) throws IOException{
         data.getUser(username).deleteForever(note);
         write();
     }

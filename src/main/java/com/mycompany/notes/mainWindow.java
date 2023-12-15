@@ -74,7 +74,7 @@ public class mainWindow extends javax.swing.JFrame{
         jMenuItem1 = new javax.swing.JMenuItem();
         button_settings = new javax.swing.JMenuItem();
 
-        dialog_trash.setMinimumSize(new java.awt.Dimension(450, 400));
+        dialog_trash.setMinimumSize(new java.awt.Dimension(500, 400));
 
         list_trash.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
         list_trash.setModel(new javax.swing.table.DefaultTableModel(
@@ -140,9 +140,9 @@ public class mainWindow extends javax.swing.JFrame{
                         .addGap(32, 32, 32)
                         .addComponent(label_deleteconfirm)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button_check, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(button_x, javax.swing.GroupLayout.PREFERRED_SIZE, 23, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addComponent(button_check, javax.swing.GroupLayout.PREFERRED_SIZE, 44, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(button_x, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
         );
         dialog_trashLayout.setVerticalGroup(
@@ -364,16 +364,23 @@ public class mainWindow extends javax.swing.JFrame{
         label_deleteconfirm.setVisible(true);
         button_check.setVisible(true);
         button_x.setVisible(true);
+        button_recover.setEnabled(false);
+        button_deleteforever.setEnabled(false);
     }//GEN-LAST:event_button_deleteforeverActionPerformed
 
     private void button_checkActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_checkActionPerformed
         try {
-            notes.deleteForver(loggedInUser, notes.getNotes(loggedInUser).get(list_trash.getSelectedRow()));
+            notes.deleteForever(loggedInUser, notes.getTrash(loggedInUser).get(list_trash.getSelectedRow()-1));
         } catch (IOException ex) {
             Logger.getLogger(mainWindow.class.getName()).log(Level.SEVERE, null, ex);
         }
         
         updateTrashList();
+        label_deleteconfirm.setVisible(false);
+        button_check.setVisible(false);
+        button_x.setVisible(false);
+        button_recover.setEnabled(true);
+        button_deleteforever.setEnabled(true);
         list_trash.selectAll();
     }//GEN-LAST:event_button_checkActionPerformed
 
@@ -396,6 +403,8 @@ public class mainWindow extends javax.swing.JFrame{
         label_deleteconfirm.setVisible(false);
         button_check.setVisible(false);
         button_x.setVisible(false);
+        button_recover.setEnabled(true);
+        button_deleteforever.setEnabled(true);
     }//GEN-LAST:event_button_xActionPerformed
 
     private void button_recoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button_recoverActionPerformed

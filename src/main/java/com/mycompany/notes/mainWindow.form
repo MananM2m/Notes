@@ -5,7 +5,7 @@
     <Container class="javax.swing.JDialog" name="dialog_trash">
       <Properties>
         <Property name="minimumSize" type="java.awt.Dimension" editor="org.netbeans.beaninfo.editors.DimensionEditor">
-          <Dimension value="[450, 400]"/>
+          <Dimension value="[500, 400]"/>
         </Property>
       </Properties>
 
@@ -23,9 +23,9 @@
                           <EmptySpace min="-2" pref="32" max="-2" attributes="0"/>
                           <Component id="label_deleteconfirm" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="button_check" min="-2" pref="23" max="-2" attributes="0"/>
-                          <EmptySpace max="-2" attributes="0"/>
-                          <Component id="button_x" min="-2" pref="23" max="-2" attributes="0"/>
+                          <Component id="button_check" min="-2" pref="44" max="-2" attributes="0"/>
+                          <EmptySpace max="32767" attributes="0"/>
+                          <Component id="button_x" min="-2" pref="51" max="-2" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
